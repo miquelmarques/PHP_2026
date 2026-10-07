@@ -15,6 +15,7 @@
    } else {
     echo "<p style=\"color:black\">Bona nit</p>";
    }
+   echo "La hora es {$hora}";
    ?>
    </div>
 </body>
