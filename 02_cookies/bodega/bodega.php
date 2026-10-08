@@ -1,18 +1,20 @@
 <?php
-if(isset($_GET["idioma"]) && isset($_GET["edat"])){
-$_COOKIE["idioma"] = $_GET["idioma"];
-$_COOKIE["majoredat"] = $_GET["edat"];
+if (isset($_GET["idioma"]) && isset($_GET["edat"])) {
+    setcookie("idioma", $_GET["idioma"]);
+    setcookie("majoredat", $_GET["edat"]);
 }
-if(isset($_GET["moneda"]) && ($_GET["moneda"]) == 'eur'){
-    $_COOKIE['moneda'] = '€';
+if (isset($_GET["moneda"])) {
+    if ($_GET["moneda"] == 'eur') {
+        setcookie('moneda', '€');
+    } elseif ($_GET["moneda"] == 'dol') {
+        setcookie('moneda', '$');
+    } elseif ($_GET["moneda"] == 'pnd') {
+        setcookie('moneda', '£');
+    }
 }
-elseif(isset($_GET["moneda"]) && ($_GET["moneda"]) == 'dol'){
-    $_COOKIE['moneda'] ='$';
+if (isset($_COOKIE['moneda'])) {
+    $moneda = $_COOKIE['moneda'];
 }
-elseif(isset($_GET["moneda"]) && ($_GET["moneda"]) == 'pnd'){
-    $_COOKIE['moneda']='£';
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -74,15 +76,15 @@ elseif(isset($_GET["moneda"]) && ($_GET["moneda"]) == 'pnd'){
                 <option value="uk"> English</option>
             </select>
             <select name="moneda">
-                <option value="eur">  €  </option>
-                <option value="dol">  $  </option>
-                <option value="pnd">  £  </option>
+                <option value="eur"> € </option>
+                <option value="dol"> $ </option>
+                <option value="pnd"> £ </option>
             </select>
             <button type="submit">Mostrar</button>
         </form>
     </div>
     <?php
-    $moneda = $_COOKIE['moneda'];
+
     if (isset($_COOKIE["majoredat"]) and isset($_COOKIE['idioma'])) {
         if ($_COOKIE["majoredat"] == 'on' and $_COOKIE['idioma'] == "ca") {
             echo '<div class="idioma" id="ca" lang="ca">
@@ -93,14 +95,14 @@ elseif(isset($_GET["moneda"]) && ($_GET["moneda"]) == 'pnd'){
         <p><strong>Tipus:</strong> Negre</p>
         <p><strong>Varietats:</strong> Garnatxa i Samsó</p>
         <p>Vi intens, amb notes de fruita vermella madura i un punt de fusta.</p>
-        <p class="preu">14,50 '.$moneda.'</p>
+        <p class="preu">14,50 ' . $moneda . '</p>
       </article>
       <article class="vi">
         <h3>Mas Blanc Joven</h3>
         <p><strong>Tipus:</strong> Blanc</p>
         <p><strong>Varietats:</strong> Xarel·lo</p>
         <p>Vi fresc i afruitat, ideal per acompanyar peix i marisc.</p>
-        <p class="preu">9,80 '.$moneda.'</p>
+        <p class="preu">9,80 ' . $moneda . '</p>
       </article>
     </div>
   </div>';
@@ -114,14 +116,14 @@ elseif(isset($_GET["moneda"]) && ($_GET["moneda"]) == 'pnd'){
         <p><strong>Tipo:</strong> Tinto</p>
         <p><strong>Variedades:</strong> Garnacha y Cariñena</p>
         <p>Vino intenso, con notas de fruta roja madura y un toque de madera.</p>
-        <p class="preu">14,50 '.$moneda.'</p>
+        <p class="preu">14,50 ' . $moneda . '</p>
       </article>
       <article class="vi">
         <h3>Mas Blanc Joven</h3>
         <p><strong>Tipo:</strong> Blanco</p>
         <p><strong>Variedades:</strong> Xarel·lo</p>
         <p>Vino fresco y afrutado, ideal para acompañar pescado y marisco.</p>
-        <p class="preu">9,80 '.$moneda.'</p>
+        <p class="preu">9,80 ' . $moneda . '</p>
       </article>
     </div>
   </div>';
@@ -135,14 +137,14 @@ elseif(isset($_GET["moneda"]) && ($_GET["moneda"]) == 'pnd'){
         <p><strong>Type:</strong> Red</p>
         <p><strong>Grapes:</strong> Grenache and Carignan</p>
         <p>An intense wine with notes of ripe red fruit and a hint of oak.</p>
-        <p class="preu">'.$moneda.'14.50</p>
+        <p class="preu">' . $moneda . '14.50</p>
       </article>
       <article class="vi">
         <h3>Mas Blanc Joven</h3>
         <p><strong>Type:</strong> White</p>
         <p><strong>Grapes:</strong> Xarel·lo</p>
         <p>A fresh, fruity wine, perfect with fish and seafood.</p>
-        <p class="preu">'.$moneda.'9.80</p>
+        <p class="preu">' . $moneda . '9.80</p>
       </article>
     </div>
   </div>';

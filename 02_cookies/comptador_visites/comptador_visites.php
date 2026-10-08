@@ -7,9 +7,11 @@ if (isset($_COOKIE['contador'])) {
     setcookie('contador', 0);
 }
 if (isset($_GET['codi'])) {
-    if ($_GET['codi'] == 'BOTIGA50') {
+    if ($_GET['codi'] == 'BOTIGA50' and $_COOKIE['contador'] >=10 ) {
         setcookie('compra', 1);
         setcookie('contador',0);
+    } elseif ($_GET['codi'] == 'BOTIGA20' ){
+        setcookie('contador', 0);
     }
 
 } else {
@@ -153,7 +155,7 @@ if (isset($_GET['codi'])) {
 
     if ($_COOKIE['contador'] >= 10 and $_COOKIE['compra'] == 0) {
         echo '<p class="anunci">Oferta exclusiva sols per a tu! Utilitza el codi BOTIGA50 per obtenir un 50% de descompte en les teves primeres compres a la botiga</p>';
-    } elseif ($_COOKIE['contador'] >= 10) {
+    } elseif ($_COOKIE['contador'] >= 5) {
         echo '<p class="anunci">Oferta exclusiva! Utilitza el codi BOTIGA20 per obtenir un 20% de descompte en les teves primeres compres a la botiga</p>';
 
     }
