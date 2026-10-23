@@ -12,12 +12,11 @@ if (!isset($_SESSION["user"])) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="ca">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Benvingut! <?php echo $_SESSION["user"] ?> :)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Benvingut</title>
   <style>
     *,
     *::before,
@@ -79,14 +78,17 @@ if (!isset($_SESSION["user"])) {
     }
   </style>
 </head>
-
 <body>
+   <nav>
+    <a href="login.php" style="color:#fff;margin-right:12px;">Benvinguda</a>
+    <a href="pagina1.php" style="color:#fff;margin-right:12px;">Pàgina 1</a>
+    <a href="pagina2.php" style="color:#fff;margin-right:12px;">Pàgina 2</a>
+  </nav>
   <div>
     <h1>Benvingut <?php echo $_SESSION["user"] ?>!</h1>
     <div>
-      <a href="./">Torna Enrere</a>
+      <a href="pagina1.php">Torna Enrere</a>
     </div>
   </div>
 </body>
-
 </html>

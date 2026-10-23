@@ -81,6 +81,11 @@ if (!isset($_SESSION["user"])) {
 </head>
 
 <body>
+    <nav>
+    <a href="login.php" style="color:#fff;margin-right:12px;">Benvinguda</a>
+    <a href="pagina1.php" style="color:#fff;margin-right:12px;">Pàgina 1</a>
+    <a href="pagina2.php" style="color:#fff;margin-right:12px;">Pàgina 2</a>
+  </nav>
   <div>
     <h1>Benvingut <?php echo $_SESSION["user"] ?>!</h1>
     <div>
