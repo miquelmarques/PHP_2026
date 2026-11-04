@@ -1,6 +1,4 @@
-<?php
-    include_once 'includes/header.php';
-?>s
+
 <!DOCTYPE html>
 <html lang="ca">
 
@@ -30,8 +28,8 @@
                 </ul>
             </nav>
             <div class="header-actions">
-                <a href="login.html" class="button">Iniciar Sessió</a>
-                <a href="registre.html" class="button button-secondary">Registrar-se</a>
+                <a href="login.php" class="button">Iniciar Sessió</a>
+                <a href="registre.php" class="button button-secondary">Registrar-se</a>
             </div>
         </div>
     </header>

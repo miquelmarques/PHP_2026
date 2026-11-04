@@ -1,11 +1,15 @@
 <?php
-    function iniciar_sessio(){
-        mysqli
-        session_start();
-        $_SESSION['usuari'] = $usuari;
-        header('Location: index.php');
+include("config/config.php");
+function iniciar_sessio()
+{
+    session_start();
+    if (isset($_SESSION["user"])) {
+        header("Location: profile.php");
+    } else {
+        return login_athnet();
     }
-    iniciar_sessio();
+}
+$result = iniciar_sessio();
 ?>
 <!DOCTYPE html>
 <html lang="ca">
@@ -331,19 +335,17 @@
                     <button type="submit" class="login-btn">Iniciar Sessió</button>
                 </form>
 
-                <div class="login-divider">
-                    <span>o continua amb</span>
-                </div>
-
-                <div class="social-login">
-                    <button class="social-btn">🏅 Strava</button>
-                    <button class="social-btn">📧 Google</button>
-                </div>
-
                 <div class="login-footer">
                     <p>No tens compte? <a href="registre.php">Registra't gratis</a></p>
                     <p style="margin-top: 10px;"><a href="index.php" style="color: #888; font-weight: 400;">← Tornar a l'inici</a></p>
                 </div>
+            </div>
+            <div>
+                <?php
+                if ($result) {
+                    echo "<p style='color: red;'>Error: Usuari o Contrassenya Incorrecte</p>";
+                }
+                ?>
             </div>
 
         </div>
