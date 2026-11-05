@@ -1,3 +1,17 @@
+<?php
+    include ("config/config.php");
+    function registre_usuari()
+    {
+    session_start();
+    if (isset($_SESSION["user"])) {
+        header("Location: profile.php");
+    } else {
+        return register_athnet();
+    }
+    }
+    $result = registre_usuari();
+
+?>
 <!DOCTYPE html>
 <html lang="ca">
 
