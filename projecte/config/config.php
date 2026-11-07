@@ -52,7 +52,7 @@ function register_athnet()
   }
 
   $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-  $club = !empty($_POST['grup']) ? $_POST['grup'] : "N/A";
+  $club = isset($_POST['grup']) ? $_POST['grup'] : "N/A";
 
   $sql = "INSERT INTO usuari (nom, cognoms, username, email, password, data_naixement, id_club)
             VALUES (?, ?, ?, ?, ?, ?, (SELECT id_club FROM club WHERE nom = ?))";
@@ -78,4 +78,29 @@ function register_athnet()
   mysqli_stmt_close($stmt);
 
   return $ok ? 1 : 0;
+}
+function get_UserInfo(){
+  global $conn;
+  $sql = "SELECT u.*, c.nom AS nom_club
+          FROM usuari u
+          LEFT JOIN club c ON u.id_club = c.id_club
+          WHERE u.id_usuari = ?";
+  $stmt = mysqli_prepare($conn, $sql);
+  mysqli_stmt_bind_param($stmt, "i", $_SESSION['user']);
+  mysqli_stmt_execute($stmt);
+  
+  $result = mysqli_stmt_get_result($stmt);
+  $var = mysqli_fetch_array($result);
+  mysqli_stmt_close($stmt);
+  return $var;
+}
+function get_CompetitionInfo(){
+  global $conn;
+  $sql = "SELECT * FROM competicio LIMIT 2";
+  $stmt = mysqli_prepare($conn,$sql);
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+  $var = mysqli_fetch_array($result);
+  mysqli_stmt_close($stmt);
+  return $var;
 }

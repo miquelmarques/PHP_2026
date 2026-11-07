@@ -1,5 +1,30 @@
 <?php
-include("includes/header.php");
+include_once("includes/header.php");
+include_once("config/config.php");
+
+# Funció get_UserInfo
+$user = get_UserInfo();
+if (!$user) { 
+    header("Location: login.php"); 
+    exit; 
+}
+
+
+$nom_complet = $user['nom'] . ' ' . $user['cognoms'];
+$inicials    = strtoupper(mb_substr($user['nom'],0,1) . mb_substr($user['cognoms'],0,1));
+$username    = $user['username'];
+$edat        = (new DateTime($user['data_naixement']))->diff(new DateTime())->y;
+$data_naix   = date('d/m/Y', strtotime($user['data_naixement']));
+$club        = $user['nom_club'] ?? 'Sense club';
+$email       = $user['email'];
+$rol         = $user['rol'];
+$data_reg    = date('d/m/Y', strtotime($user['data_registre']));
+
+# Funció get_CompetitionInfo
+$comp = get_CompetitionInfo()
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="ca">
@@ -314,7 +339,7 @@ include("includes/header.php");
                 </ul>
             </nav>
             <div class="header-actions">
-                <a href="profile.php" class="button">👤 <?php echo $usuari ?> </a>
+                <a href="profile.php" class="button">👤 <?php echo $username ?> </a>
             </div>
         </div>
     </header>
@@ -324,17 +349,17 @@ include("includes/header.php");
 
         <!-- Capçalera del perfil -->
         <div class="profile-header">
-            <div class="profile-avatar">MG</div>
+            <div class="profile-avatar"><?php echo "$inicials" ?></div>
 
             <div class="profile-info">
-                <h2>Marc García</h2>
-                <p class="username">@marc_garcia</p>
-                <span class="role-badge">⭐ Influencer</span>
+            <h2><?php echo "$nom_complet"?></h2>
+                <p class="username">@<?php echo "$username"?></p>
+                <span class="role-badge"> <?php echo "$rol"?></span>
                 <div class="profile-meta">
-                    <span>📧 marc@correu.com</span>
-                    <span>🎂 24 anys</span>
-                    <span>🏟️ Club Atletisme Tarragona</span>
-                    <span>📅 Membre des de Oct 2026</span>
+                    <span>📧 <?php echo "$email"?></span>
+                    <span>🎂 <?php echo "$edat"?> anys</span>
+                    <span>🏟️ <?php echo "$data_naix"?></span>
+                    <span>📅 Usuari des del: <?php echo "$data_reg" ?></span>
                 </div>
             </div>
 
@@ -354,27 +379,27 @@ include("includes/header.php");
                     <h3>📋 Dades personals</h3>
                     <div class="data-row">
                         <label>Nom complet</label>
-                        <span>Marc García López</span>
+                        <span><?php echo "$nom_complet"?></span>
                     </div>
                     <div class="data-row">
                         <label>Nom d'usuari</label>
-                        <span>@marc_garcia</span>
+                        <span>@<?php echo "$username"?></span>
                     </div>
                     <div class="data-row">
                         <label>Correu electrònic</label>
-                        <span>marc@correu.com</span>
+                        <span><?php echo "$email"?></span>
                     </div>
                     <div class="data-row">
                         <label>Data de naixement</label>
-                        <span>15/03/2002 (24 anys)</span>
+                        <span><?php echo "$data_naix"?></span>
                     </div>
                     <div class="data-row">
                         <label>Club</label>
-                        <span>Club Atletisme Tarragona</span>
+                        <span><?php echo "$club" ?></span>
                     </div>
                     <div class="data-row">
                         <label>Rol</label>
-                        <span>⭐ Influencer</span>
+                        <span><?php echo "$rol"?></span>
                     </div>
                 </div>
 
@@ -382,29 +407,19 @@ include("includes/header.php");
                 <div class="card">
                     <h3>📅 Properes proves</h3>
 
-                    <div class="event-item">
-                        <div class="event-date-mini">
-                            <span class="day">15</span>
-                            <span class="month">NOV</span>
-                        </div>
-                        <div>
-                            <div class="event-name">Mitja Marató de Barcelona</div>
-                            <div class="event-loc">📍 Barcelona · Ruta</div>
-                        </div>
-                    </div>
-
-                    <div class="event-item">
-                        <div class="event-date-mini">
-                            <span class="day">06</span>
-                            <span class="month">DES</span>
-                        </div>
-                        <div>
-                            <div class="event-name">Meeting de Pista Coberta</div>
-                            <div class="event-loc">📍 Sabadell · Pista</div>
-                        </div>
-                    </div>
+                    <?php 
+                    #<div class="event-item">
+                    #    <div class="event-date-mini">
+                    #        <span class="day">15</span>
+                    #        <span class="month">NOV</span>
+                    #    </div>
+                    #    <div>
+                    #        <div class="event-name">Mitja Marató de Barcelona</div>
+                    #        <div class="event-loc">📍 Barcelona · Ruta</div>
+                    #    </div>
+                    #</div>
+                    ?>
                 </div>
-            </div>
 
             <!-- Columna dreta: activitats recents -->
             <div class="card">

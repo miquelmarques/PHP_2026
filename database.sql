@@ -57,7 +57,7 @@ CREATE TABLE activitat (
     KEY idx_activitat_usuari (id_usuari),
     CONSTRAINT fk_activitat_usuari
         FOREIGN KEY (id_usuari) REFERENCES usuari (id_usuari)
-        ON DELETE CASCADE ON UPDATE CASCADE,
+        ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 
@@ -100,5 +100,5 @@ CREATE TABLE segueix (
         ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT fk_segueix_seguit
         FOREIGN KEY (id_seguit) REFERENCES usuari (id_usuari)
-        ON DELETE CASCADE ON UPDATE CASCADE,
+        ON DELETE CASCADE ON UPDATE CASCADE
 );
