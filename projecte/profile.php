@@ -4,24 +4,24 @@ include_once("config/config.php");
 
 # Funció get_UserInfo
 $user = get_UserInfo();
-if (!$user) { 
-    header("Location: login.php"); 
-    exit; 
+if (!$user) {
+    header("Location: login.php");
+    exit;
 }
 
 
 $nom_complet = $user['nom'] . ' ' . $user['cognoms'];
-$inicials    = strtoupper(mb_substr($user['nom'],0,1) . mb_substr($user['cognoms'],0,1));
-$username    = $user['username'];
-$edat        = (new DateTime($user['data_naixement']))->diff(new DateTime())->y;
-$data_naix   = date('d/m/Y', strtotime($user['data_naixement']));
-$club        = $user['nom_club'] ?? 'Sense club';
-$email       = $user['email'];
-$rol         = $user['rol'];
-$data_reg    = date('d/m/Y', strtotime($user['data_registre']));
+$inicials = strtoupper(mb_substr($user['nom'], 0, 1) . mb_substr($user['cognoms'], 0, 1));
+$username = $user['username'];
+$edat = (new DateTime($user['data_naixement']))->diff(new DateTime())->y;
+$data_naix = date('d/m/Y', strtotime($user['data_naixement']));
+$club = $user['nom_club'] ?? 'Sense club';
+$email = $user['email'];
+$rol = $user['rol'];
+$data_reg = date('d/m/Y', strtotime($user['data_registre']));
 
 # Funció get_CompetitionInfo
-$comp = get_CompetitionInfo()
+$comp = get_CompetitionInfo();
 
 
 
@@ -352,13 +352,13 @@ $comp = get_CompetitionInfo()
             <div class="profile-avatar"><?php echo "$inicials" ?></div>
 
             <div class="profile-info">
-            <h2><?php echo "$nom_complet"?></h2>
-                <p class="username">@<?php echo "$username"?></p>
-                <span class="role-badge"> <?php echo "$rol"?></span>
+                <h2><?php echo "$nom_complet" ?></h2>
+                <p class="username">@<?php echo "$username" ?></p>
+                <span class="role-badge"> <?php echo "$rol" ?></span>
                 <div class="profile-meta">
-                    <span>📧 <?php echo "$email"?></span>
-                    <span>🎂 <?php echo "$edat"?> anys</span>
-                    <span>🏟️ <?php echo "$data_naix"?></span>
+                    <span>📧 <?php echo "$email" ?></span>
+                    <span>🎂 <?php echo "$edat" ?> anys</span>
+                    <span>🏟️ <?php echo "$data_naix" ?></span>
                     <span>📅 Usuari des del: <?php echo "$data_reg" ?></span>
                 </div>
             </div>
@@ -379,19 +379,19 @@ $comp = get_CompetitionInfo()
                     <h3>📋 Dades personals</h3>
                     <div class="data-row">
                         <label>Nom complet</label>
-                        <span><?php echo "$nom_complet"?></span>
+                        <span><?php echo "$nom_complet" ?></span>
                     </div>
                     <div class="data-row">
                         <label>Nom d'usuari</label>
-                        <span>@<?php echo "$username"?></span>
+                        <span>@<?php echo "$username" ?></span>
                     </div>
                     <div class="data-row">
                         <label>Correu electrònic</label>
-                        <span><?php echo "$email"?></span>
+                        <span><?php echo "$email" ?></span>
                     </div>
                     <div class="data-row">
                         <label>Data de naixement</label>
-                        <span><?php echo "$data_naix"?></span>
+                        <span><?php echo "$data_naix" ?></span>
                     </div>
                     <div class="data-row">
                         <label>Club</label>
@@ -399,7 +399,7 @@ $comp = get_CompetitionInfo()
                     </div>
                     <div class="data-row">
                         <label>Rol</label>
-                        <span><?php echo "$rol"?></span>
+                        <span><?php echo "$rol" ?></span>
                     </div>
                 </div>
 
@@ -407,68 +407,41 @@ $comp = get_CompetitionInfo()
                 <div class="card">
                     <h3>📅 Properes proves</h3>
 
-                    <?php 
-                    #<div class="event-item">
-                    #    <div class="event-date-mini">
-                    #        <span class="day">15</span>
-                    #        <span class="month">NOV</span>
-                    #    </div>
-                    #    <div>
-                    #        <div class="event-name">Mitja Marató de Barcelona</div>
-                    #        <div class="event-loc">📍 Barcelona · Ruta</div>
-                    #    </div>
-                    #</div>
+                    <?php
+                    foreach ($comp as $c) {
+                        $dia = date("d", strtotime($c['data']));
+                        $mes = substr(date("F", strtotime($c['data'])), 0, 3);
+                        echo "<div class='event-item'>
+                            <div class='event-date-mini'>
+                                <span class='day'>$dia</span>
+                                <span class='month'>$mes</span>
+                            </div>
+                            <div>
+                                <div class='event-name'>" . $c['nom'] . "</div>
+                                <div class='event-loc'>" . $c['ubicacio'] . " · " . $c['tipus'] . "</div>
+                            </div>
+                        </div>";
+                    }
+
+
                     ?>
                 </div>
+            </div>
 
             <!-- Columna dreta: activitats recents -->
             <div class="card">
                 <h3>🏃 Activitats recents</h3>
-
-                <div class="activity-item">
-                    <div class="activity-icon">🏃</div>
+                <?php
+                echo '<div class="activity-item">
+                    <div class="activity-icon"><iframe width="425" height="350" src="https://www.openstreetmap.org/export/embed?bbox=2.124137878417969%2C41.37886950966323%2C2.4605941772460938%2C41.541477666790314&amp;layer=mapnik" style="border: 1px solid black"></iframe><br/><small><a href="https://www.openstreetmap.org/#map=13/41.46022/2.29237">Mostra un mapa més gran</a></small></div>
                     <div class="activity-data">
                         <strong>Córrer</strong>
                         <div class="activity-meta">📅 04/11/2026 07:30 &nbsp;·&nbsp; ⏱️ 45 min &nbsp;·&nbsp; 📏 10.2 km</div>
                     </div>
                     <span class="activity-badge">10.2 km</span>
                 </div>
-
-                <div class="activity-item">
-                    <div class="activity-icon">⛰️</div>
-                    <div class="activity-data">
-                        <strong>Trail</strong>
-                        <div class="activity-meta">📅 02/11/2026 09:00 &nbsp;·&nbsp; ⏱️ 1h 20min &nbsp;·&nbsp; 📏 15.5 km</div>
-                    </div>
-                    <span class="activity-badge">15.5 km</span>
-                </div>
-
-                <div class="activity-item">
-                    <div class="activity-icon">🏃</div>
-                    <div class="activity-data">
-                        <strong>Córrer</strong>
-                        <div class="activity-meta">📅 31/10/2026 18:00 &nbsp;·&nbsp; ⏱️ 30 min &nbsp;·&nbsp; 📏 6.0 km</div>
-                    </div>
-                    <span class="activity-badge">6.0 km</span>
-                </div>
-
-                <div class="activity-item">
-                    <div class="activity-icon">🚴</div>
-                    <div class="activity-data">
-                        <strong>Ciclisme</strong>
-                        <div class="activity-meta">📅 29/10/2026 10:00 &nbsp;·&nbsp; ⏱️ 2h 0min &nbsp;·&nbsp; 📏 42.0 km</div>
-                    </div>
-                    <span class="activity-badge">42.0 km</span>
-                </div>
-
-                <div class="activity-item">
-                    <div class="activity-icon">🏃</div>
-                    <div class="activity-data">
-                        <strong>Córrer</strong>
-                        <div class="activity-meta">📅 27/10/2026 07:00 &nbsp;·&nbsp; ⏱️ 55 min &nbsp;·&nbsp; 📏 12.3 km</div>
-                    </div>
-                    <span class="activity-badge">12.3 km</span>
-                </div>
+                '
+                    ?>
             </div>
 
         </div>

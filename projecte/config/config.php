@@ -87,8 +87,7 @@ function get_UserInfo(){
           WHERE u.id_usuari = ?";
   $stmt = mysqli_prepare($conn, $sql);
   mysqli_stmt_bind_param($stmt, "i", $_SESSION['user']);
-  mysqli_stmt_execute($stmt);
-  
+  mysqli_stmt_execute($stmt);  
   $result = mysqli_stmt_get_result($stmt);
   $var = mysqli_fetch_array($result);
   mysqli_stmt_close($stmt);
@@ -100,7 +99,21 @@ function get_CompetitionInfo(){
   $stmt = mysqli_prepare($conn,$sql);
   mysqli_stmt_execute($stmt);
   $result = mysqli_stmt_get_result($stmt);
-  $var = mysqli_fetch_array($result);
+  $var = mysqli_fetch_all($result, MYSQLI_ASSOC);
   mysqli_stmt_close($stmt);
   return $var;
 }
+function get_ActivitiesUser(){
+  # Activitats que realitza el usuar
+  global $conn;
+  $sql = "SELECT * FROM activitat WHERE id_usuari = ?";
+  $stmt = mysqli_prepare($conn,$sql);
+  mysqli_stmt_bind_param($stmt, "i", $_SESSION['user']);
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+  $var = mysqli_fetch_all($result,MYSQLI_ASSOC);
+  mysqli_stmt_close($stmt);
+  return $var;
+}
+
+function get_NewestActivites(){}
