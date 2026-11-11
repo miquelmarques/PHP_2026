@@ -115,5 +115,53 @@ function get_ActivitiesUser(){
   mysqli_stmt_close($stmt);
   return $var;
 }
+function get_SumaryActivitiesKm(){
+  global $conn;
+  $sql = "SELECT COALESCE(SUM(distancia), 0) AS total FROM activitat WHERE id_usuari = ?";
+  $stmt = mysqli_prepare($conn,$sql);
+  mysqli_stmt_bind_param($stmt, "i", $_SESSION['user']);
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+  $row = mysqli_fetch_assoc($result);
+  mysqli_stmt_close($stmt);
+  return (float) $row['total'];
+}
 
-function get_NewestActivites(){}
+function get_SumaryActivities(){
+  global $conn;
+  $sql = "SELECT COALESCE(COUNT(distancia), 0) AS total FROM activitat WHERE id_usuari = ?";
+  $stmt = mysqli_prepare($conn,$sql);
+  mysqli_stmt_bind_param($stmt, "i", $_SESSION['user']);
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+  $row = mysqli_fetch_assoc($result);
+  mysqli_stmt_close($stmt);
+  return (float) $row['total'];
+}
+function get_PBActivitat(){
+  # PB de l'usuari: l'activitat amb millor ritme (durada / distància), sense competició
+  global $conn;
+  $sql = "SELECT id_activitat, tipus, durada, distancia, data
+          FROM activitat
+          WHERE id_usuari = ? AND distancia > 0
+          ORDER BY durada / distancia ASC
+          LIMIT 1";
+  $stmt = mysqli_prepare($conn, $sql);
+  mysqli_stmt_bind_param($stmt, "i", $_SESSION['user']);
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+  $pb = mysqli_fetch_assoc($result);
+  mysqli_stmt_close($stmt);
+  return $pb ?: null;
+}
+function get_NewestActivites(){
+  global $conn;
+  $sql = "SELECT * FROM activitat WHERE id_usuari = ? ORDER BY data LIMIT 10 ";
+  $stmt = mysqli_prepare($conn,$sql);
+  mysqli_stmt_bind_param($stmt, "i", $_SESSION['user']);
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+  $var = mysqli_fetch_all($result,MYSQLI_ASSOC);
+  mysqli_stmt_close($stmt);
+  return $var;
+}

@@ -23,6 +23,22 @@ $data_reg = date('d/m/Y', strtotime($user['data_registre']));
 # Funció get_CompetitionInfo
 $comp = get_CompetitionInfo();
 
+$km = get_SumaryActivitiesKm();
+$totalActivitats=get_SumaryActivities();
+$activitats = get_NewestActivites();
+
+# PB de la competició més recent: format "5K:17:34"
+$pb = get_PBActivitat();
+$pb_text = 'Sense marca';
+if ($pb) {
+    $dist = rtrim(rtrim(number_format((float)$pb['distancia'], 2, '.', ''), '0'), '.');
+    $segons = (int) $pb['durada'];
+    $h = intdiv($segons, 3600);
+    $m = intdiv($segons % 3600, 60);
+    $s = $segons % 60;
+    $temps = $h > 0 ? sprintf('%dh%02dm%02ds', $h, $m, $s) : sprintf('%dm%02ds', $m, $s);
+    $pb_text = $dist . 'K:' . $temps;
+}
 
 
 ?>
@@ -356,10 +372,10 @@ $comp = get_CompetitionInfo();
                 <p class="username">@<?php echo "$username" ?></p>
                 <span class="role-badge"> <?php echo "$rol" ?></span>
                 <div class="profile-meta">
-                    <span>📧 <?php echo "$email" ?></span>
-                    <span>🎂 <?php echo "$edat" ?> anys</span>
-                    <span>🏟️ <?php echo "$data_naix" ?></span>
-                    <span>📅 Usuari des del: <?php echo "$data_reg" ?></span>
+                    <span>KM: <?php echo "$km" ?></span>
+                    <span>Activititats: <?php echo "$totalActivitats" ?> </span>
+                    <span>PB: <?php echo htmlspecialchars($pb_text) ?></span>
+                    <span>Usuari des del: <?php echo "$data_reg" ?></span>
                 </div>
             </div>
 
@@ -422,8 +438,6 @@ $comp = get_CompetitionInfo();
                             </div>
                         </div>";
                     }
-
-
                     ?>
                 </div>
             </div>
@@ -432,16 +446,34 @@ $comp = get_CompetitionInfo();
             <div class="card">
                 <h3>🏃 Activitats recents</h3>
                 <?php
-                echo '<div class="activity-item">
-                    <div class="activity-icon"><iframe width="425" height="350" src="https://www.openstreetmap.org/export/embed?bbox=2.124137878417969%2C41.37886950966323%2C2.4605941772460938%2C41.541477666790314&amp;layer=mapnik" style="border: 1px solid black"></iframe><br/><small><a href="https://www.openstreetmap.org/#map=13/41.46022/2.29237">Mostra un mapa més gran</a></small></div>
-                    <div class="activity-data">
-                        <strong>Córrer</strong>
-                        <div class="activity-meta">📅 04/11/2026 07:30 &nbsp;·&nbsp; ⏱️ 45 min &nbsp;·&nbsp; 📏 10.2 km</div>
-                    </div>
-                    <span class="activity-badge">10.2 km</span>
-                </div>
-                '
+                if (empty($activitats)) {
+                    echo "<p>Encara no has afegit cap activitat.</p>";
+                }
+                foreach ($activitats as $a) {
+                    $segons = (int) $a['durada'];
+                    $h = intdiv($segons, 3600);
+                    $m = intdiv($segons % 3600, 60);
+                    $s = $segons % 60;
+                    $temps = $h > 0 ? sprintf('%dh%02dm%02ds', $h, $m, $s) : sprintf('%dm%02ds', $m, $s);
+                    $dist  = rtrim(rtrim(number_format((float) $a['distancia'], 2, '.', ''), '0'), '.');
+                    $icona = $icones[$a['tipus']] ?? '🏅';
+                    $data  = date('d/m/Y H:i', strtotime($a['data']));
                     ?>
+                    <div class="activity-item">
+                        <div class="activity-icon"><?php echo $icona ?></div>
+                        <div class="activity-data">
+                            <strong><?php echo htmlspecialchars($a['tipus']) ?></strong>
+                            <div class="activity-meta">📅 <?php echo $data ?> &nbsp;·&nbsp; ⏱️ <?php echo $temps ?></div>
+                        </div>
+                        <span class="activity-badge"><?php echo $dist ?> km</span>
+                    </div>
+                    <?php
+                }
+                ?>
+
+                <div style="margin-top: 20px; text-align: center;">
+                    <a href="afegir_activitat.php" class="button"> Afegir activitat</a>
+                </div>
             </div>
 
         </div>
