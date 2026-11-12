@@ -5,6 +5,13 @@ include_once("config/config.php");
 $tipus_valids = ['Córrer', 'Trail', 'Ciclisme', 'Caminar'];
 $error = '';
 
+$user = get_UserInfo();
+if (!$user) {
+    header("Location: login.php");
+    exit;
+}
+$username = $user['username'];
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tipus = $_POST['tipus'];
     $data  = $_POST['data'];
@@ -149,7 +156,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </ul>
             </nav>
             <div class="header-actions">
-                <a href="profile.php" class="button">👤 Perfil</a>
+                <a href="profile.php" class="button"><?php echo "$username"?></a>
             </div>
         </div>
     </header>

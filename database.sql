@@ -49,10 +49,12 @@ CREATE TABLE competicio (
 CREATE TABLE activitat (
     id_activitat  INT UNSIGNED  NOT NULL AUTO_INCREMENT,
     id_usuari     INT UNSIGNED  NOT NULL,
+    titol         VARCHAR(25)   NOT NULL,
     tipus         VARCHAR(50)   NOT NULL,
     data          DATETIME      NOT NULL,
     durada        INT UNSIGNED  NOT NULL,
     distancia     DECIMAL(8,2),
+    ruta          JSON              NULL,
     PRIMARY KEY (id_activitat),
     KEY idx_activitat_usuari (id_usuari),
     CONSTRAINT fk_activitat_usuari

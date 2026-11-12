@@ -355,7 +355,7 @@ if ($pb) {
                 </ul>
             </nav>
             <div class="header-actions">
-                <a href="profile.php" class="button">👤 <?php echo $username ?> </a>
+                <a href="profile.php" class="button"><?php echo $username ?> </a>
             </div>
         </div>
     </header>
@@ -369,7 +369,7 @@ if ($pb) {
 
             <div class="profile-info">
                 <h2><?php echo "$nom_complet" ?></h2>
-                <p class="username">@<?php echo "$username" ?></p>
+                <p class="username"><?php echo "$username" ?></p>
                 <span class="role-badge"> <?php echo "$rol" ?></span>
                 <div class="profile-meta">
                     <span>KM: <?php echo "$km" ?></span>
@@ -379,9 +379,9 @@ if ($pb) {
                 </div>
             </div>
 
-            <div class="profile-actions">
-                <a href="edit_profile.php" class="button">✏️ Editar perfil</a>
-                <a href="logout.php" class="btn-logout">🚪 Tancar sessió</a>
+            <div>
+                <a href="edit_profile.php" class="button">Editar perfil</a>
+                <a href="logout.php" class="button">Tancar sessió</a>
             </div>
         </div>
 
@@ -399,7 +399,7 @@ if ($pb) {
                     </div>
                     <div class="data-row">
                         <label>Nom d'usuari</label>
-                        <span>@<?php echo "$username" ?></span>
+                        <span><?php echo "$username" ?></span>
                     </div>
                     <div class="data-row">
                         <label>Correu electrònic</label>
@@ -462,7 +462,7 @@ if ($pb) {
                     <div class="activity-item">
                         <div class="activity-icon"><?php echo $icona ?></div>
                         <div class="activity-data">
-                            <strong><?php echo htmlspecialchars($a['tipus']) ?></strong>
+                            <strong><?php echo $a['tipus'] ?></strong>
                             <div class="activity-meta">📅 <?php echo $data ?> &nbsp;·&nbsp; ⏱️ <?php echo $temps ?></div>
                         </div>
                         <span class="activity-badge"><?php echo $dist ?> km</span>

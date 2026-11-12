@@ -165,3 +165,4 @@ function get_NewestActivites(){
   mysqli_stmt_close($stmt);
   return $var;
 }
+

@@ -9,7 +9,9 @@ function iniciar_sessio()
         return login_athnet();
     }
 }
-$result = iniciar_sessio();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $result = iniciar_sessio();
+}
 ?>
 <!DOCTYPE html>
 <html lang="ca">
@@ -292,7 +294,8 @@ $result = iniciar_sessio();
             <div class="login-side">
                 <img src="images/logo.jfif" alt="AthNet Logo">
                 <h1>AthNet</h1>
-                <p>La xarxa social per a atletes. Connecta amb la comunitat, comparteix les teves marques i millora cada dia.</p>
+                <p>La xarxa social per a atletes. Connecta amb la comunitat, comparteix les teves marques i millora cada
+                    dia.</p>
                 <div class="side-stats">
                     <div class="side-stat">
                         <span>2.5K+</span>
@@ -337,16 +340,18 @@ $result = iniciar_sessio();
 
                 <div class="login-footer">
                     <p>No tens compte? <a href="registre.php">Registra't gratis</a></p>
-                    <p style="margin-top: 10px;"><a href="index.php" style="color: #888; font-weight: 400;">← Tornar a l'inici</a></p>
+                    <p style="margin-top: 10px;"><a href="index.php" style="color: #888; font-weight: 400;">← Tornar a
+                            l'inici</a></p>
+                </div>
+                <div>
+                    <?php
+                    if ($result) {
+                        echo "<p style='color: red;'>Error: Usuari o Contrassenya Incorrecte</p>";
+                    }
+                    ?>
                 </div>
             </div>
-            <div>
-                <?php
-                if ($result) {
-                    echo "<p style='color: red;'>Error: Usuari o Contrassenya Incorrecte</p>";
-                }
-                ?>
-            </div>
+
 
         </div>
     </div>
