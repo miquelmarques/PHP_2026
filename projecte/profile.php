@@ -49,379 +49,152 @@ if ($pb) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AthNet | Perfil</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800;900&family=Source+Sans+3:wght@400;600&display=swap">
     <link rel="stylesheet" href="css/style.css">
-    <style>
-        /* ===== PROFILE PAGE ===== */
-        .profile-page {
-            max-width: 1100px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        /* --- Capçalera del perfil --- */
-        .profile-header {
-            background: linear-gradient(135deg, var(--primary-blue) 0%, #163a64 100%);
-            border-radius: 16px;
-            padding: 40px;
-            display: flex;
-            align-items: center;
-            gap: 35px;
-            margin-bottom: 30px;
-            color: #fff;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .profile-header::before {
-            content: '🏃';
-            position: absolute;
-            right: 40px;
-            top: 20px;
-            font-size: 8rem;
-            opacity: 0.07;
-        }
-
-        .profile-avatar {
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            background: var(--primary-orange);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: #fff;
-            flex-shrink: 0;
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            letter-spacing: 2px;
-        }
-
-        .profile-info h2 {
-            color: #fff;
-            font-size: 1.8rem;
-            margin-bottom: 4px;
-        }
-
-        .profile-info .username {
-            color: rgba(255, 255, 255, 0.65);
-            font-size: 1rem;
-            margin-bottom: 12px;
-        }
-
-        .profile-info .role-badge {
-            display: inline-block;
-            padding: 4px 14px;
-            border-radius: 20px;
-            font-size: 0.82rem;
-            font-weight: 700;
-            color: #fff;
-            background-color: var(--primary-orange);
-            margin-bottom: 14px;
-        }
-
-        .profile-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 18px;
-            font-size: 0.88rem;
-            color: rgba(255, 255, 255, 0.75);
-        }
-
-        .profile-meta span {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .profile-actions {
-            margin-left: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .btn-logout {
-            padding: 10px 22px;
-            background: rgba(255, 255, 255, 0.12);
-            color: #fff;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.9rem;
-            text-align: center;
-            transition: background 0.3s;
-            text-decoration: none;
-        }
-
-        .btn-logout:hover {
-            background: rgba(255, 255, 255, 0.22);
-            color: #fff;
-        }
-
-        /* --- Grid principal --- */
-        .profile-grid {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 25px;
-        }
-
-        /* --- Targetes --- */
-        .card {
-            background: #fff;
-            border-radius: 12px;
-            padding: 28px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
-            margin-bottom: 25px;
-        }
-
-        .card:last-child {
-            margin-bottom: 0;
-        }
-
-        .card h3 {
-            font-size: 1.1rem;
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid var(--primary-orange);
-            color: var(--primary-blue);
-        }
-
-        /* --- Dades personals --- */
-        .data-row {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 16px;
-        }
-
-        .data-row:last-child {
-            margin-bottom: 0;
-        }
-
-        .data-row label {
-            font-size: 0.78rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #aaa;
-            font-weight: 600;
-            margin-bottom: 3px;
-        }
-
-        .data-row span {
-            font-size: 0.95rem;
-            color: var(--text-color);
-            font-weight: 500;
-        }
-
-        /* --- Activitats --- */
-        .activity-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 14px;
-            background: var(--bg-color);
-            border-radius: 10px;
-            border-left: 4px solid var(--primary-orange);
-            margin-bottom: 12px;
-        }
-
-        .activity-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .activity-icon {
-            font-size: 1.5rem;
-            flex-shrink: 0;
-        }
-
-        .activity-data {
-            flex: 1;
-        }
-
-        .activity-data strong {
-            display: block;
-            color: var(--primary-blue);
-            font-size: 0.95rem;
-        }
-
-        .activity-data .activity-meta {
-            font-size: 0.82rem;
-            color: #888;
-            margin-top: 2px;
-        }
-
-        .activity-badge {
-            background: rgba(234, 107, 36, 0.12);
-            color: var(--primary-orange);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            white-space: nowrap;
-        }
-
-        /* --- Inscripcions --- */
-        .event-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 14px;
-            background: var(--bg-color);
-            border-radius: 10px;
-            margin-bottom: 12px;
-        }
-
-        .event-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .event-date-mini {
-            background: var(--primary-blue);
-            color: #fff;
-            border-radius: 8px;
-            padding: 10px 12px;
-            text-align: center;
-            min-width: 55px;
-            flex-shrink: 0;
-        }
-
-        .event-date-mini .day {
-            display: block;
-            font-size: 1.2rem;
-            font-weight: 800;
-            line-height: 1;
-        }
-
-        .event-date-mini .month {
-            display: block;
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            opacity: 0.8;
-            margin-top: 2px;
-        }
-
-        .event-name {
-            font-weight: 600;
-            color: var(--primary-blue);
-            font-size: 0.95rem;
-        }
-
-        .event-loc {
-            font-size: 0.82rem;
-            color: #888;
-            margin-top: 2px;
-        }
-
-        /* --- Responsive --- */
-        @media (max-width: 768px) {
-            .profile-header {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .profile-actions {
-                margin-left: 0;
-                flex-direction: row;
-            }
-
-            .profile-meta {
-                justify-content: center;
-            }
-
-            .profile-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
 </head>
 
 <body>
 
-    <!-- HEADER NAV -->
-    <header>
-        <div class="header-container">
-            <div class="logo">
-                <img src="images/logo.jfif" alt="AthNet Logo">
-                <h1>AthNet</h1>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="index.php">Inici</a></li>
-                    <li><a href="calendari.php">Calendari</a></li>
-                    <li><a href="resultats.php">Resultats</a></li>
-                    <li><a href="classificacio.php">Classificació</a></li>
-                </ul>
-            </nav>
-            <div class="header-actions">
-                <a href="profile.php" class="button"><?php echo $username ?> </a>
-            </div>
-        </div>
+    <!-- CAPÇALERA -->
+    <header id="header">
+        <h1><a href="index.php"><img src="images/logo.jfif" alt="AthNet"></a></h1>
+        <nav class="links" aria-label="Navegació principal">
+            <ul>
+                <li><a href="index.php">Inici</a></li>
+                <li><a href="xarxa.php">Xarxa</a></li>
+                <li><a href="calendari.php">Calendari</a></li>
+                <li><a href="resultats.php">Resultats</a></li>
+                <li><a href="classificacio.php">Classificació</a></li>
+            </ul>
+        </nav>
+        <nav class="main" aria-label="Compte">
+            <ul>
+                <li><a href="profile.php"><?php echo $username ?> </a></li>
+            </ul>
+        </nav>
     </header>
 
-    <!-- PERFIL -->
-    <main class="profile-page">
+    <div id="wrapper">
 
-        <!-- Capçalera del perfil -->
-        <div class="profile-header">
-            <div class="profile-avatar"><?php echo "$inicials" ?></div>
+        <!-- CONTINGUT PRINCIPAL -->
+        <main id="main">
 
-            <div class="profile-info">
-                <h2><?php echo "$nom_complet" ?></h2>
-                <p class="username"><?php echo "$username" ?></p>
-                <span class="role-badge"> <?php echo "$rol" ?></span>
-                <div class="profile-meta">
-                    <span>KM: <?php echo "$km" ?></span>
-                    <span>Activititats: <?php echo "$totalActivitats" ?> </span>
-                    <span>PB: <?php echo htmlspecialchars($pb_text) ?></span>
-                    <span>Usuari des del: <?php echo "$data_reg" ?></span>
+            <article class="post">
+                <header>
+                    <div class="title">
+                        <h2>El teu resum</h2>
+                        <p>Tot el que has corregut fins ara</p>
+                    </div>
+                    <div class="meta">
+                        <span class="published">Usuari des del</span>
+                        <span class="author"><span class="name"><b><?php echo "$data_reg" ?></b></span></span>
+                    </div>
+                </header>
+
+                <ul class="lanes" aria-label="Estadístiques">
+                    <li><b><?php echo "$km" ?></b> Quilòmetres</li>
+                    <li><b><?php echo "$totalActivitats" ?> </b> Activitats</li>
+                    <li><b><?php echo htmlspecialchars($pb_text) ?></b> Marca personal</li>
+                </ul>
+            </article>
+
+            <article class="post">
+                <header>
+                    <div class="title">
+                        <h2>Activitats recents</h2>
+                        <p>Els teus últims entrenaments</p>
+                    </div>
+                </header>
+
+                <div class="activity-list">
+                <?php
+                if (empty($activitats)) {
+                    echo "<p>Encara no has afegit cap activitat.</p>";
+                }
+                foreach ($activitats as $a) {
+                    $segons = (int) $a['durada'];
+                    $h = intdiv($segons, 3600);
+                    $m = intdiv($segons % 3600, 60);
+                    $s = $segons % 60;
+                    $temps = $h > 0 ? sprintf('%dh%02dm%02ds', $h, $m, $s) : sprintf('%dm%02ds', $m, $s);
+                    $dist  = rtrim(rtrim(number_format((float) $a['distancia'], 2, '.', ''), '0'), '.');
+                    $icona = $icones[$a['tipus']] ?? '🏅';
+                    $data  = date('d/m/Y H:i', strtotime($a['data']));
+                    ?>
+                    <div class="activity">
+                        <span class="icon" aria-hidden="true"><?php echo $icona ?></span>
+                        <div class="body">
+                            <strong><?php echo $a['tipus'] ?></strong>
+                            <span><?php echo $data ?> · <?php echo $temps ?></span>
+                        </div>
+                        <span class="distance"><?php echo $dist ?> km</span>
+                    </div>
+                    <?php
+                }
+                ?>
                 </div>
-            </div>
 
-            <div>
-                <a href="edit_profile.php" class="button">Editar perfil</a>
-                <a href="logout.php" class="button">Tancar sessió</a>
-            </div>
-        </div>
+                <footer>
+                    <div class="actions">
+                        <a href="afegir_activitat.php" class="button primary">Afegir activitat</a>
+                        <a href="xarxa.php" class="button">Veure la xarxa</a>
+                    </div>
+                </footer>
+            </article>
 
-        <!-- Grid de contingut -->
-        <div class="profile-grid">
+        </main>
 
-            <!-- Columna esquerra -->
-            <div>
-                <!-- Dades personals -->
-                <div class="card">
-                    <h3>📋 Dades personals</h3>
-                    <div class="data-row">
-                        <label>Nom complet</label>
-                        <span><?php echo "$nom_complet" ?></span>
-                    </div>
-                    <div class="data-row">
-                        <label>Nom d'usuari</label>
-                        <span><?php echo "$username" ?></span>
-                    </div>
-                    <div class="data-row">
-                        <label>Correu electrònic</label>
-                        <span><?php echo "$email" ?></span>
-                    </div>
-                    <div class="data-row">
-                        <label>Data de naixement</label>
-                        <span><?php echo "$data_naix" ?></span>
-                    </div>
-                    <div class="data-row">
-                        <label>Club</label>
-                        <span><?php echo "$club" ?></span>
-                    </div>
-                    <div class="data-row">
-                        <label>Rol</label>
-                        <span><?php echo "$rol" ?></span>
-                    </div>
+        <!-- BARRA LATERAL -->
+        <section id="sidebar">
+
+            <section id="intro">
+                <div class="avatar large" aria-hidden="true"><?php echo "$inicials" ?></div>
+                <header>
+                    <h2><?php echo "$nom_complet" ?></h2>
+                    <p>@<?php echo "$username" ?></p>
+                    <span class="tag"> <?php echo "$rol" ?></span>
+                </header>
+                <div class="actions">
+                    <a href="edit_profile.php" class="button small">Editar perfil</a>
+                    <a href="logout.php" class="button small">Tancar sessió</a>
                 </div>
+            </section>
 
-                <!-- Properes inscripcions -->
-                <div class="card">
-                    <h3>📅 Properes proves</h3>
+            <section class="blurb">
+                <h2>Dades personals</h2>
+                <dl class="datalist">
+                    <div>
+                        <dt>Nom complet</dt>
+                        <dd><?php echo "$nom_complet" ?></dd>
+                    </div>
+                    <div>
+                        <dt>Nom d'usuari</dt>
+                        <dd><?php echo "$username" ?></dd>
+                    </div>
+                    <div>
+                        <dt>Correu</dt>
+                        <dd><?php echo "$email" ?></dd>
+                    </div>
+                    <div>
+                        <dt>Naixement</dt>
+                        <dd><?php echo "$data_naix" ?></dd>
+                    </div>
+                    <div>
+                        <dt>Club</dt>
+                        <dd><?php echo "$club" ?></dd>
+                    </div>
+                    <div>
+                        <dt>Rol</dt>
+                        <dd><?php echo "$rol" ?></dd>
+                    </div>
+                </dl>
+            </section>
+
+            <section>
+                <h2>Properes proves</h2>
+                <div class="mini-posts">
 
                     <?php
                     foreach ($comp as $c) {
@@ -440,82 +213,21 @@ if ($pb) {
                     }
                     ?>
                 </div>
-            </div>
+            </section>
 
-            <!-- Columna dreta: activitats recents -->
-            <div class="card">
-                <h3>🏃 Activitats recents</h3>
-                <?php
-                if (empty($activitats)) {
-                    echo "<p>Encara no has afegit cap activitat.</p>";
-                }
-                foreach ($activitats as $a) {
-                    $segons = (int) $a['durada'];
-                    $h = intdiv($segons, 3600);
-                    $m = intdiv($segons % 3600, 60);
-                    $s = $segons % 60;
-                    $temps = $h > 0 ? sprintf('%dh%02dm%02ds', $h, $m, $s) : sprintf('%dm%02ds', $m, $s);
-                    $dist  = rtrim(rtrim(number_format((float) $a['distancia'], 2, '.', ''), '0'), '.');
-                    $icona = $icones[$a['tipus']] ?? '🏅';
-                    $data  = date('d/m/Y H:i', strtotime($a['data']));
-                    ?>
-                    <div class="activity-item">
-                        <div class="activity-icon"><?php echo $icona ?></div>
-                        <div class="activity-data">
-                            <strong><?php echo $a['tipus'] ?></strong>
-                            <div class="activity-meta">📅 <?php echo $data ?> &nbsp;·&nbsp; ⏱️ <?php echo $temps ?></div>
-                        </div>
-                        <span class="activity-badge"><?php echo $dist ?> km</span>
-                    </div>
-                    <?php
-                }
-                ?>
-
-                <div style="margin-top: 20px; text-align: center;">
-                    <a href="afegir_activitat.php" class="button"> Afegir activitat</a>
-                </div>
-            </div>
-
-        </div>
-    </main>
-
-    <!-- FOOTER -->
-    <footer>
-        <div class="footer-container">
-            <div class="footer-col">
-                <h4>AthNet</h4>
-                <p>La xarxa social per a atletes. Connecta, competeix i millora cada dia.</p>
-            </div>
-            <div class="footer-col">
-                <h4>Navegació</h4>
-                <ul>
+            <section id="footer">
+                <ul class="links">
                     <li><a href="index.php">Inici</a></li>
-                    <li><a href="calendari.php">Calendari</a></li>
-                    <li><a href="resultats.php">Resultats</a></li>
-                    <li><a href="classificacio.php">Classificació</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Comunitat</h4>
-                <ul>
-                    <li><a href="#">Clubs</a></li>
-                    <li><a href="#">Atletes</a></li>
+                    <li><a href="xarxa.php">Xarxa</a></li>
                     <li><a href="contacte.php">Contacte</a></li>
                 </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Compte</h4>
-                <ul>
-                    <li><a href="profile.php">El meu perfil</a></li>
-                    <li><a href="edit_profile.php">Editar perfil</a></li>
-                    <li><a href="logout.php">Tancar sessió</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 AthNet. Tots els drets reservats.</p>
-        </div>
-    </footer>
+                <p class="copyright">&copy; 2026 AthNet. Tots els drets reservats.<br>
+                    Disseny: <a href="https://html5up.net">HTML5 UP</a></p>
+            </section>
+
+        </section>
+
+    </div>
 
 </body>
 
