@@ -79,7 +79,8 @@ function register_athnet()
 
   return $ok ? 1 : 0;
 }
-function get_UserInfo(){
+function get_UserInfo()
+{
   global $conn;
   $sql = "SELECT u.*, c.nom AS nom_club
           FROM usuari u
@@ -87,38 +88,41 @@ function get_UserInfo(){
           WHERE u.id_usuari = ?";
   $stmt = mysqli_prepare($conn, $sql);
   mysqli_stmt_bind_param($stmt, "i", $_SESSION['user']);
-  mysqli_stmt_execute($stmt);  
+  mysqli_stmt_execute($stmt);
   $result = mysqli_stmt_get_result($stmt);
   $var = mysqli_fetch_array($result);
   mysqli_stmt_close($stmt);
   return $var;
 }
-function get_CompetitionInfo(){
+function get_CompetitionInfo()
+{
   global $conn;
   $sql = "SELECT * FROM competicio LIMIT 2";
-  $stmt = mysqli_prepare($conn,$sql);
+  $stmt = mysqli_prepare($conn, $sql);
   mysqli_stmt_execute($stmt);
   $result = mysqli_stmt_get_result($stmt);
   $var = mysqli_fetch_all($result, MYSQLI_ASSOC);
   mysqli_stmt_close($stmt);
   return $var;
 }
-function get_ActivitiesUser(){
+function get_ActivitiesUser()
+{
   # Activitats que realitza el usuar
   global $conn;
   $sql = "SELECT * FROM activitat WHERE id_usuari = ?";
-  $stmt = mysqli_prepare($conn,$sql);
+  $stmt = mysqli_prepare($conn, $sql);
   mysqli_stmt_bind_param($stmt, "i", $_SESSION['user']);
   mysqli_stmt_execute($stmt);
   $result = mysqli_stmt_get_result($stmt);
-  $var = mysqli_fetch_all($result,MYSQLI_ASSOC);
+  $var = mysqli_fetch_all($result, MYSQLI_ASSOC);
   mysqli_stmt_close($stmt);
   return $var;
 }
-function get_SumaryActivitiesKm(){
+function get_SumaryActivitiesKm()
+{
   global $conn;
   $sql = "SELECT COALESCE(SUM(distancia), 0) AS total FROM activitat WHERE id_usuari = ?";
-  $stmt = mysqli_prepare($conn,$sql);
+  $stmt = mysqli_prepare($conn, $sql);
   mysqli_stmt_bind_param($stmt, "i", $_SESSION['user']);
   mysqli_stmt_execute($stmt);
   $result = mysqli_stmt_get_result($stmt);
@@ -127,10 +131,11 @@ function get_SumaryActivitiesKm(){
   return (float) $row['total'];
 }
 
-function get_SumaryActivities(){
+function get_SumaryActivities()
+{
   global $conn;
   $sql = "SELECT COALESCE(COUNT(distancia), 0) AS total FROM activitat WHERE id_usuari = ?";
-  $stmt = mysqli_prepare($conn,$sql);
+  $stmt = mysqli_prepare($conn, $sql);
   mysqli_stmt_bind_param($stmt, "i", $_SESSION['user']);
   mysqli_stmt_execute($stmt);
   $result = mysqli_stmt_get_result($stmt);
@@ -138,7 +143,8 @@ function get_SumaryActivities(){
   mysqli_stmt_close($stmt);
   return (float) $row['total'];
 }
-function get_PBActivitat(){
+function get_PBActivitat()
+{
   # PB de l'usuari: l'activitat amb millor ritme (durada / distància), sense competició
   global $conn;
   $sql = "SELECT id_activitat, tipus, durada, distancia, data
@@ -154,15 +160,58 @@ function get_PBActivitat(){
   mysqli_stmt_close($stmt);
   return $pb ?: null;
 }
-function get_NewestActivites(){
+function get_NewestActivites()
+{
   global $conn;
   $sql = "SELECT * FROM activitat WHERE id_usuari = ? ORDER BY data LIMIT 10 ";
-  $stmt = mysqli_prepare($conn,$sql);
+  $stmt = mysqli_prepare($conn, $sql);
   mysqli_stmt_bind_param($stmt, "i", $_SESSION['user']);
   mysqli_stmt_execute($stmt);
   $result = mysqli_stmt_get_result($stmt);
-  $var = mysqli_fetch_all($result,MYSQLI_ASSOC);
+  $var = mysqli_fetch_all($result, MYSQLI_ASSOC);
   mysqli_stmt_close($stmt);
   return $var;
 }
+  function titleActivity($titol,$hores,$tipus){
+    if(!isset($titol)){
+      if($hores >= 6 && $hores < 12){
+        $resultat = "Morning $tipus";
+      }elseif($hores >= 12 && $hores < 14){
+        $resultat = "Lunch $tipus";
+      }elseif($hores >= 14 && $hores < 19){
+        $resultat = "Afternoon $tipus";
+      } elseif($hores >= 19 && $hores < 21){
+        $resultat = "Evening $tipus";
+      } else {
+        $resultat = "Night $tipus";
+      }
+      return $resultat;
+    }
+  }
+  function NewActivity($user, $titol,$tipus, $data, $data_sql, $durada, $distancia)
+  {
+    global $conn;
+    $error = '';
+    $tipus_valids = ['Run', 'Trail', 'Ciclying', 'Walk'];
+    if (!in_array($tipus, $tipus_valids, true)) {
+      $error = "Tipus d'activitat no vàlid.";
+    } elseif (!$data || strtotime($data_sql) === false) {
+      $error = "Data no vàlida.";
+    } elseif (!is_numeric($distancia) || (float) $distancia <= 0) {
+      $error = "La distància ha de ser un número més gran que 0.";
+    } elseif ($durada <= 0) {
+      $error = "El temps ha de ser més gran que 0.";
+    } else {
+      $stmt = mysqli_prepare(
+        $conn,
+        "INSERT INTO activitat (id_usuari,titol, tipus, data, durada, distancia)
+             VALUES (?, ?, ?, ?, ?, ?)"
+      );
+      $distancia = round((float) $distancia, 2);
+      mysqli_stmt_bind_param($stmt, "issid", $user,$titol, $tipus, $data_sql, $durada, $distancia);
+      mysqli_stmt_execute($stmt);
+      mysqli_stmt_close($stmt);
+      return $error ?: null;
+    }
+  }
 

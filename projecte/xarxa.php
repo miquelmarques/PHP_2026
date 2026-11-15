@@ -1,6 +1,12 @@
 <?php
 include_once("includes/header.php");
 include_once("config/config.php");
+$user = get_UserInfo();
+if (!$user) {
+    header("Location: login.php");
+    exit;
+}
+$username = $user['username'];
 
 // Activitats de la resta d'usuaris, de la més recent a la més antiga
 $sql = "SELECT a.id_activitat, a.tipus, a.data, a.durada, a.distancia,
@@ -16,8 +22,6 @@ mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 $activitats = mysqli_fetch_all($result, MYSQLI_ASSOC);
 mysqli_stmt_close($stmt);
-
-$icones = ['Córrer' => '🏃', 'Trail' => '⛰️', 'Ciclisme' => '🚴', 'Caminar' => '🚶'];
 ?>
 <!DOCTYPE html>
 <html lang="ca">
@@ -48,7 +52,7 @@ $icones = ['Córrer' => '🏃', 'Trail' => '⛰️', 'Ciclisme' => '🚴', 'Cami
         </nav>
         <nav class="main" aria-label="Compte">
             <ul>
-                <li><a href="profile.php">Perfil</a></li>
+                <li><a href="profile.php"><?php echo "$username"?></a></li>
             </ul>
         </nav>
     </header>
@@ -74,13 +78,12 @@ $icones = ['Córrer' => '🏃', 'Trail' => '⛰️', 'Ciclisme' => '🚴', 'Cami
             $s = $segons % 60;
             $temps = $h > 0 ? sprintf('%dh%02dm%02ds', $h, $m, $s) : sprintf('%dm%02ds', $m, $s);
             $dist  = rtrim(rtrim(number_format((float) $a['distancia'], 2, '.', ''), '0'), '.');
-            $icona = $icones[$a['tipus']] ?? '🏅';
             $inicials = strtoupper(mb_substr($a['nom'], 0, 1) . mb_substr($a['cognoms'], 0, 1));
         ?>
             <article class="post feed">
                 <header>
                     <div class="title">
-                        <h2><span class="icon" aria-hidden="true"><?php echo $icona ?></span><?php echo htmlspecialchars($a['tipus']) ?></h2>
+                        <h2><span class="icon" aria-hidden="true"></span><?php echo htmlspecialchars($a['tipus']) ?></h2>
                         <p><?php echo date('d/m/Y H:i', strtotime($a['data'])) ?></p>
                     </div>
                     <div class="meta">

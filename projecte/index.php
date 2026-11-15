@@ -1,4 +1,7 @@
-
+<?php
+include_once("config/config.php");
+$comp = get_CompetitionInfo();
+?>
 <!DOCTYPE html>
 <html lang="ca">
 
@@ -131,30 +134,22 @@
             <section>
                 <h2>Properes proves</h2>
                 <div class="mini-posts">
-                    <article class="mini-post">
-                        <div class="date"><b>15</b><span>Nov</span></div>
-                        <header>
-                            <h3>Mitja Marató de Barcelona</h3>
-                            <p>Barcelona · 21,1 km · Ruta</p>
-                            <a href="#" class="more">Inscriu-te</a>
-                        </header>
-                    </article>
-                    <article class="mini-post">
-                        <div class="date"><b>22</b><span>Nov</span></div>
-                        <header>
-                            <h3>Campionat Provincial de Cros</h3>
-                            <p>Tarragona · 8 km · Cros</p>
-                            <a href="#" class="more">Inscriu-te</a>
-                        </header>
-                    </article>
-                    <article class="mini-post">
-                        <div class="date"><b>06</b><span>Des</span></div>
-                        <header>
-                            <h3>Meeting de Pista Coberta</h3>
-                            <p>Sabadell · Múltiples proves · Pista</p>
-                            <a href="#" class="more">Inscriu-te</a>
-                        </header>
-                    </article>
+                    <?php
+                    foreach ($comp as $c) {
+                        $dia = date("d", strtotime($c['data']));
+                        $mes = substr(date("F", strtotime($c['data'])), 0, 3);
+                        echo "<div class='event-item'>
+                            <div class='event-date-mini'>
+                                <span class='day'>$dia</span>
+                                <span class='month'>$mes</span>
+                            </div>
+                            <div>
+                                <div class='event-name'>" . $c['nom'] . "</div>
+                                <div class='event-loc'>" . $c['ubicacio'] . " · " . $c['tipus'] . "</div>
+                            </div>
+                        </div>";
+                    }
+                    ?>
                 </div>
             </section>
 

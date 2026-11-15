@@ -78,3 +78,12 @@ Ara mateix les activitats de [profile.php](projecte/profile.php) estan escrites 
 Un altre detall: amb molts mapes petits la pàgina es fa pesada. Una opció és mostrar el mapa només a l'activitat més recent, o en una pàgina de detall de l'activitat.
 
 Si vols, ho puc implementar jo directament. Abans hauria de mirar com és la taula d'activitats.
+
+# Seguim elaborant pagines web amb el HTML i css de base
+
+Necesito elaborar les tres pagines del menú (calendari,resultats, classificació) i una altra pagina web que puguis veure el perfil d'un usuari.
+> No realitzis PHP solament mostra la plantilla de la web.
+
+1. Seguint el estil que te la web realitza les pagines web de calendari, resultats, classificació.
+
+2. Realitza la pagina de veure perfil de un altre usuari pero que no mostri tanta informació com email, data neixament. La resta ho pot mostrar.

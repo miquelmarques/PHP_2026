@@ -62,9 +62,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <div class="form-message">
                     <?php
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     if ($result) {
                         echo "<p style='color: red;'>Error: Usuari o Contrassenya Incorrecte</p>";
-                    }
+                    }}
                     ?>
                 </div>
 

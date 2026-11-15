@@ -2,8 +2,8 @@
 include_once("includes/header.php");
 include_once("config/config.php");
 
-$tipus_valids = ['Córrer', 'Trail', 'Ciclisme', 'Caminar'];
-$error = '';
+
+
 
 $user = get_UserInfo();
 if (!$user) {
@@ -19,29 +19,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $hores = (int) ($_POST['hores'] ?? 0);
     $min   = (int) ($_POST['minuts'] ?? 0);
     $seg   = (int) ($_POST['segons'] ?? 0);
-
+    
     $durada = $hores * 3600 + $min * 60 + $seg; // es guarda en segons
     $data_sql = str_replace('T', ' ', $data) . ':00';
-
-    if (!in_array($tipus, $tipus_valids, true)) {
-        $error = "Tipus d'activitat no vàlid.";
-    } elseif (!$data || strtotime($data_sql) === false) {
-        $error = "Data no vàlida.";
-    } elseif (!is_numeric($dist) || (float) $dist <= 0) {
-        $error = "La distància ha de ser un número més gran que 0.";
-    } elseif ($durada <= 0) {
-        $error = "El temps ha de ser més gran que 0.";
-    } else {
-        $stmt = mysqli_prepare($conn,
-            "INSERT INTO activitat (id_usuari, tipus, data, durada, distancia)
-             VALUES (?, ?, ?, ?, ?)");
-        $distancia = round((float) $dist, 2);
-        mysqli_stmt_bind_param($stmt, "issid", $_SESSION['user'], $tipus, $data_sql, $durada, $distancia);
-        mysqli_stmt_execute($stmt);
-        mysqli_stmt_close($stmt);
-
+    $error=NewActivity($_SESSION['user'],titleActivity($titol,$hores,$tipus),$tipus,$data,$data_sql,$durada,$dist);
+    if(!isset($error)){
         header("Location: profile.php");
-        exit;
     }
 }
 ?>
@@ -92,14 +75,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </header>
 
                 <form method="post" action="afegir_activitat.php">
+                    <div class="field">
+                            <label for="titol">Nom de l'acitivitat</label>
+                            <input type="text" id="titol" name="titol" placeholder="Ex: Morning Run">
+                        </div>
                     <div class="fields">
                         <div class="field">
                             <label for="tipus">Tipus</label>
                             <select id="tipus" name="tipus" required>
-                                <option value="Córrer">Córrer</option>
+                                <option value="Run">Córrer</option>
                                 <option value="Trail">Trail</option>
-                                <option value="Ciclisme">Ciclisme</option>
-                                <option value="Caminar">Caminar</option>
+                                <option value="Ciclying">Ciclisme</option>
+                                <option value="Walk">Caminar</option>
                             </select>
                         </div>
                         <div class="field">
