@@ -8,20 +8,7 @@ if (!$user) {
 }
 $username = $user['username'];
 
-// Activitats de la resta d'usuaris, de la més recent a la més antiga
-$sql = "SELECT a.id_activitat, a.tipus, a.data, a.durada, a.distancia,
-               u.nom, u.cognoms, u.username
-        FROM activitat a
-        JOIN usuari u ON u.id_usuari = a.id_usuari
-        WHERE a.id_usuari <> ?
-        ORDER BY a.data DESC
-        LIMIT 50";
-$stmt = mysqli_prepare($conn, $sql);
-mysqli_stmt_bind_param($stmt, "i", $_SESSION['user']);
-mysqli_stmt_execute($stmt);
-$result = mysqli_stmt_get_result($stmt);
-$activitats = mysqli_fetch_all($result, MYSQLI_ASSOC);
-mysqli_stmt_close($stmt);
+$activitats = Get_ActivitiesFromAllUsers($_SESSION['user']);
 ?>
 <!DOCTYPE html>
 <html lang="ca">

@@ -1,3 +1,8 @@
+<?php 
+
+    include("config/config.php");
+    $calendari = Get_Calendar(); 
+?>
 <!DOCTYPE html>
 <html lang="ca">
 
@@ -52,14 +57,20 @@
             </div>
 
             <!-- Un article per mes -->
-            <article class="post">
+             <?php
+                for($i=1;$i<=12; $i++):
+                    $month_calendar = Get_CalendarByMonth($i, 2026);
+                    $CALENDAR_LIB= [ 
+                        1 => 'Gener', 2 => 'Febrer', 3=> 'Març', 4 => 'Abril', 5 => 'Maig', 6 => 'Juny', 7 => 'Juliol', 8 => 'Agost', 9 => 'Septembre', 10 => 'Ocutbre', 11 => 'Novembre', 12 => 'Desembre'
+                    ];
+                    ?>
+                <article class="post">
                 <header>
                     <div class="title">
-                        <h2>Novembre 2026</h2>
-                        <p>Proves d'aquest mes</p>
+                        <h2><?php echo "$CALENDAR_LIB[$i]" ?> 2026</h2>
                     </div>
                     <div class="meta">
-                        <span class="published">3 proves</span>
+                        <span class="published"></span>
                         <span class="author"><span class="name">Inscripcions <b>Obertes</b></span></span>
                     </div>
                 </header>
@@ -104,7 +115,8 @@
                         <a href="#" class="button small primary">Inscriu-me</a>
                     </div>
                 </div>
-            </article>
+</article>           
+            <?php endfor ?>
 
             <article class="post">
                 <header>

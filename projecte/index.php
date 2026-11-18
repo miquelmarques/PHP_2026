@@ -1,6 +1,13 @@
 <?php
+session_start();
 include_once("config/config.php");
 $comp = get_CompetitionInfo();
+$activitats = Get_ActivitiesRecentActivities();
+if(isset($_SESSION['user'])){
+    $user = get_UserInfo();
+    $username = $user['username'];
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="ca">
@@ -31,7 +38,13 @@ $comp = get_CompetitionInfo();
         </nav>
         <nav class="main" aria-label="Compte">
             <ul>
-                <li><a href="profile.php">Perfil</a></li>
+                <?php 
+                    if(isset($_SESSION['user'])){
+                    echo "<li><a href='profile.php'>$username</a></li>";
+                    } else {
+                        echo "<li><a href='profile.php'>Perfil</a></li>";
+                    }
+                    ?>                
             </ul>
         </nav>
     </header>
@@ -156,34 +169,35 @@ $comp = get_CompetitionInfo();
             <section>
                 <h2>Activitat recent</h2>
                 <ul class="posts">
-                    <li>
-                        <span class="avatar" aria-hidden="true">MG</span>
-                        <p><strong>Marc García</strong> ha registrat una nova marca personal
-                            <span class="detail">10K en 38:42</span>
-                            <span class="when">Fa 2 hores</span>
+                     <?php
+                    foreach ($activitats as $a) {
+                        $segons = (int) $a['durada'];
+                        $h = intdiv($segons, 3600);
+                        $m = intdiv($segons % 3600, 60);
+                        $s = $segons % 60;
+                        $temps = $h > 0 ? sprintf('%dh%02dm%02ds', $h, $m, $s) : sprintf('%dm%02ds', $m, $s);
+                        $dist  = rtrim(rtrim(number_format((float) $a['distancia'], 2, '.', ''), '0'), '.');
+                        $inicials = strtoupper(mb_substr($a['nom'], 0, 1) . mb_substr($a['cognoms'], 0, 1));
+                        $date = strtotime($a['data']);  // Converteix string → timestamp
+                        $diferencia =  time() - $date;
+                        if ($diferencia < 60) {
+                            $antiguitat = $diferencia . ' segons';
+                        } elseif ($diferencia < 3600) {
+                            $antiguitat = floor($diferencia / 60) . ' minuts';
+                        } elseif ($diferencia < 86400) {
+                            $antiguitat = floor($diferencia / 3600) . ' hores';
+                        } else {
+                            $antiguitat = floor($diferencia / 86400) . ' dies';
+                        }
+                        echo '<li>
+                        <span class="avatar" aria-hidden="true">'.$inicials.'</span>
+                        <p><strong>'.$a['nom'] . ' ' . $a['cognoms'].'</strong> ha registrat una activitat nova!
+                            <span class="detail">'.$dist.' Km en '.$temps.'</span>
+                            <span class="when">fa '.$antiguitat.'</span>
                         </p>
-                    </li>
-                    <li>
-                        <span class="avatar" aria-hidden="true">LP</span>
-                        <p><strong>Laura Pérez</strong> s'ha inscrit a una prova
-                            <span class="detail">Mitja Marató de Barcelona · 15 Nov</span>
-                            <span class="when">Fa 4 hores</span>
-                        </p>
-                    </li>
-                    <li>
-                        <span class="avatar" aria-hidden="true">JR</span>
-                        <p><strong>Joan Roca</strong> s'ha unit al club
-                            <span class="detail">Club Atletisme Tarragona</span>
-                            <span class="when">Fa 6 hores</span>
-                        </p>
-                    </li>
-                    <li>
-                        <span class="avatar" aria-hidden="true">AS</span>
-                        <p><strong>Anna Serra</strong> ha compartit un entrenament
-                            <span class="detail">Intervals 8x400m · Temps mitjà: 1:18</span>
-                            <span class="when">Ahir</span>
-                        </p>
-                    </li>
+                    </li>';
+                    }
+                    ?>
                 </ul>
             </section>
 

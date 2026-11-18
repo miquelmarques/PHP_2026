@@ -214,4 +214,63 @@ function get_NewestActivites()
       return $error ?: null;
     }
   }
+function Get_ActivitiesFromAllUsers($user){
+  global $conn;
+  $sql = "SELECT a.id_activitat, a.tipus, a.data, a.durada, a.distancia,
+               u.nom, u.cognoms, u.username
+        FROM activitat a
+        JOIN usuari u ON u.id_usuari = a.id_usuari
+        WHERE a.id_usuari <> ?
+        ORDER BY a.data DESC
+        LIMIT 50";
+  $stmt = mysqli_prepare($conn, $sql);
+  mysqli_stmt_bind_param($stmt, "i", $user);
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+  $activitats = mysqli_fetch_all($result, MYSQLI_ASSOC);
+  mysqli_stmt_close($stmt);
+  return $activitats;
+}
+function Get_ActivitiesRecentActivities(){
+  # Obté les 5 primeres activitats dels usuaris
+  global $conn;
+  $sql = "SELECT a.id_activitat, a.tipus, a.data, a.durada, a.distancia,
+               u.nom, u.cognoms, u.username
+        FROM activitat a
+        JOIN usuari u ON u.id_usuari = a.id_usuari
+        ORDER BY a.data DESC
+        LIMIT 5";
+  $stmt = mysqli_prepare($conn, $sql);
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+  $activitats = mysqli_fetch_all($result, MYSQLI_ASSOC);
+  mysqli_stmt_close($stmt);
+  return $activitats;
+}
+
+function Get_Calendar(){
+    global $conn;
+  $sql = "SELECT * 
+        FROM competicio";
+  $stmt = mysqli_prepare($conn, $sql);
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+  $calendar = mysqli_fetch_all($result, MYSQLI_ASSOC);
+  mysqli_stmt_close($stmt);
+  return $calendar;
+}
+
+function Get_CalendarByMonth($month, $year){
+  global $conn;
+  $sql = "SELECT * FROM competicio WHERE MONTH(data) = ? AND YEAR(data) = ?";
+  $stmt = mysqli_prepare($conn, $sql);
+   mysqli_stmt_bind_param($stmt,"i", (string) $month, (string) $year);
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+  $calendar = mysqli_fetch_all($result, MYSQLI_ASSOC);
+  mysqli_stmt_close($stmt);
+  return $calendar;
+}
+
+
 
