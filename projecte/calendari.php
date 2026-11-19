@@ -61,61 +61,39 @@
                 for($i=1;$i<=12; $i++):
                     $month_calendar = Get_CalendarByMonth($i, 2026);
                     $CALENDAR_LIB= [ 
-                        1 => 'Gener', 2 => 'Febrer', 3=> 'Març', 4 => 'Abril', 5 => 'Maig', 6 => 'Juny', 7 => 'Juliol', 8 => 'Agost', 9 => 'Septembre', 10 => 'Ocutbre', 11 => 'Novembre', 12 => 'Desembre'
+                        1 => 'Gener', 2 => 'Febrer', 3=> 'Març', 4 => 'Abril', 
+                        5 => 'Maig', 6 => 'Juny', 7 => 'Juliol', 8 => 'Agost', 
+                        9 => 'Septembre', 10 => 'Ocutbre', 11 => 'Novembre', 
+                        12 => 'Desembre'
                     ];
                     ?>
                 <article class="post">
                 <header>
                     <div class="title">
-                        <h2><?php echo "$CALENDAR_LIB[$i]" ?> 2026</h2>
+                        <h2><?php echo "$CALENDAR_LIB[$i] 2026"?> </h2>
                     </div>
                     <div class="meta">
                         <span class="published"></span>
                         <span class="author"><span class="name">Inscripcions <b>Obertes</b></span></span>
                     </div>
                 </header>
-
                 <div class="activity-list">
+                    <?php foreach($month_calendar as $competicio): ?>
                     <div class="activity race">
                         <div class="event-date-mini">
-                            <span class="day">22</span>
-                            <span class="month">Nov</span>
+                            <span class="day"><?php echo $competicio['dia'] ?></span>
+                            <span class="month"><?php echo strtoupper(mb_substr($CALENDAR_LIB[$i],0,3)) ?></span>
                         </div>
                         <div class="body">
-                            <strong>Mitja Marató de Barcelona</strong>
-                            <span>Barcelona · 09:00 · 21,1 km</span>
+                            <strong><?php echo $competicio['nom'] ?></strong>
+                            <span><?php echo $competicio['ubicacio'] ?> · <?php echo $competicio['hora'] ?> · <?php echo $competicio['distancia'] ?> km</span>
                         </div>
-                        <span class="tag">Ruta</span>
+                        <span class="tag"><?php echo $competicio['tipus'] ?></span>
                         <a href="#" class="button small primary">Inscriu-me</a>
                     </div>
-
-                    <div class="activity race">
-                        <div class="event-date-mini">
-                            <span class="day">28</span>
-                            <span class="month">Nov</span>
-                        </div>
-                        <div class="body">
-                            <strong>Control de pista 5.000 m</strong>
-                            <span>Tarragona · 17:30 · 5 km</span>
-                        </div>
-                        <span class="tag">Pista</span>
-                        <a href="#" class="button small primary">Inscriu-me</a>
-                    </div>
-
-                    <div class="activity race">
-                        <div class="event-date-mini">
-                            <span class="day">29</span>
-                            <span class="month">Nov</span>
-                        </div>
-                        <div class="body">
-                            <strong>Cros de Granollers</strong>
-                            <span>Granollers · 10:00 · 8 km</span>
-                        </div>
-                        <span class="tag">Cros</span>
-                        <a href="#" class="button small primary">Inscriu-me</a>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
-</article>           
+            </article>           
             <?php endfor ?>
 
             <article class="post">

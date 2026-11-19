@@ -264,7 +264,7 @@ function Get_CalendarByMonth($month, $year){
   global $conn;
   $sql = "SELECT * FROM competicio WHERE MONTH(data) = ? AND YEAR(data) = ?";
   $stmt = mysqli_prepare($conn, $sql);
-   mysqli_stmt_bind_param($stmt,"i", (string) $month, (string) $year);
+  mysqli_stmt_bind_param($stmt, "ii", $month, $year);
   mysqli_stmt_execute($stmt);
   $result = mysqli_stmt_get_result($stmt);
   $calendar = mysqli_fetch_all($result, MYSQLI_ASSOC);
