@@ -260,9 +260,20 @@ function Get_Calendar(){
   return $calendar;
 }
 
-function Get_CalendarByMonth($month, $year){
+function Get_CalendarByMonth($month, $year, $tipus){
   global $conn;
-  $sql = "SELECT * FROM competicio WHERE MONTH(data) = ? AND YEAR(data) = ?";
+  $sql = "SELECT *, DAY(data) as dia, HOUR(data) as hora FROM competicio WHERE MONTH(data) = ? AND YEAR(data) = ? AND tipus = ?";
+  $stmt = mysqli_prepare($conn, $sql);
+  mysqli_stmt_bind_param($stmt, "iis", $month, $year, $tipus);
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+  $calendar = mysqli_fetch_all($result, MYSQLI_ASSOC);
+  mysqli_stmt_close($stmt);
+  return $calendar;
+}
+function Get_CalendarByMonthAll($month, $year){
+  global $conn;
+  $sql = "SELECT *, DAY(data) as dia, HOUR(data) as hora FROM competicio WHERE MONTH(data) = ? AND YEAR(data) = ?";
   $stmt = mysqli_prepare($conn, $sql);
   mysqli_stmt_bind_param($stmt, "ii", $month, $year);
   mysqli_stmt_execute($stmt);
@@ -271,6 +282,5 @@ function Get_CalendarByMonth($month, $year){
   mysqli_stmt_close($stmt);
   return $calendar;
 }
-
 
 
