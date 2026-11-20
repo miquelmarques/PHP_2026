@@ -208,7 +208,7 @@ function get_NewestActivites()
              VALUES (?, ?, ?, ?, ?, ?)"
       );
       $distancia = round((float) $distancia, 2);
-      mysqli_stmt_bind_param($stmt, "issid", $user,$titol, $tipus, $data_sql, $durada, $distancia);
+      mysqli_stmt_bind_param($stmt, "isssid", $user,$titol, $tipus, $data_sql, $durada, $distancia);
       mysqli_stmt_execute($stmt);
       mysqli_stmt_close($stmt);
       return $error ?: null;
@@ -283,4 +283,15 @@ function Get_CalendarByMonthAll($month, $year){
   return $calendar;
 }
 
+function Get_CompetitionsFromUser($id) {
+  global $conn;
+  $sql = "SELECT c.*, DAY(c.data) as dia, HOUR(c.data) as hora FROM competicio c JOIN inscripcio i ON c.id_competicio = i.id_competicio WHERE i.id_usuari = ?";
+  $stmt = mysqli_prepare($conn, $sql);
+  mysqli_stmt_bind_param($stmt, "i", $id);
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+  $competition_user = mysqli_fetch_all($result, MYSQLI_ASSOC);
+  mysqli_stmt_close($stmt);
+  return $competition_user;
+}
 

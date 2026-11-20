@@ -82,7 +82,7 @@ if ($any < 2000 || $any > 2100)
 
     <?php
     for ($i = 1; $i <= 12; $i++):
-        if ($_GET['tipus_activitat'] == "Totes"){
+        if (!isset($_GET['tipus_activitat']) OR $_GET['tipus_activitat'] == "Totes"){
             $month_calendar = Get_CalendarByMonthAll($i, $any);
         } else {
             $month_calendar = Get_CalendarByMonth($i, $any, $_GET['tipus_activitat']);
@@ -149,6 +149,7 @@ if ($any < 2000 || $any > 2100)
         </section>
 
         <section>
+            <?php ?>
             <h2>Les teves inscripcions</h2>
             <div class="mini-posts">
                 <div class="event-item">
